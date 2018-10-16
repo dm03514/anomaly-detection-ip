@@ -36,3 +36,5 @@ RUN curl -L https://github.com/firehol/firehol/releases/download/v$FIREHOL_VERSI
     cp contrib/ipset-apply.sh /bin/ipset-apply && \
     cd && \
     rm -rf /tmp/firehol-$FIREHOL_VERSION
+
+
