@@ -1,4 +1,7 @@
+PKGS = $(shell go list ./... | grep -v /vendor/)
 
+test:
+	go test $(PKGS) -v
 
 docker-dev-image:
 	# WARNING WARNING - THIS IS A DEV IMAGE!!!!
