@@ -1,9 +1,9 @@
 package ipsets
 
 import (
-	"testing"
 	"database/sql"
-	_"github.com/lib/pq"
+	_ "github.com/lib/pq"
+	"testing"
 )
 
 var db *sql.DB
@@ -18,7 +18,6 @@ func init() {
 		panic(err)
 	}
 }
-
 
 func BenchmarkQueryNonExistent(b *testing.B) {
 	for n := 0; n < b.N; n++ {

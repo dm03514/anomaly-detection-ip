@@ -1,8 +1,8 @@
 package ipsets
 
 import (
-	"io"
 	"encoding/json"
+	"io"
 )
 
 type Metadata struct {
@@ -17,7 +17,6 @@ func (m Metadata) JSON() (string, error) {
 	bs, err := json.Marshal(m.Extra)
 	return string(bs), err
 }
-
 
 type Netset struct {
 	f io.Reader
@@ -3096,18 +3095,18 @@ func (n Netset) CIDRS() []string {
 func (n Netset) Metadata() (Metadata, error) {
 	return Metadata{
 		Extra: map[string]string{
-			"Name": "fullbogons",
-			"Type": "ipv4 hash:net ipset",
-			"Maintainer": "Team Cymru",
-			"MaintainerURL": "http://www.team-cymru.org/",
-			"ListSourceURL": "http://www.team-cymru.org/Services/Bogons/fullbogons-ipv4.txt",
-			"SourceFileDate": "Tue Oct 16 20:50:04 UTC 2018",
-			"Category": "unroutable",
-			"Version": "1",
-			"ThisFileDate": "Tue Oct 16 21:47:59 UTC 2018",
+			"Name":            "fullbogons",
+			"Type":            "ipv4 hash:net ipset",
+			"Maintainer":      "Team Cymru",
+			"MaintainerURL":   "http://www.team-cymru.org/",
+			"ListSourceURL":   "http://www.team-cymru.org/Services/Bogons/fullbogons-ipv4.txt",
+			"SourceFileDate":  "Tue Oct 16 20:50:04 UTC 2018",
+			"Category":        "unroutable",
+			"Version":         "1",
+			"ThisFileDate":    "Tue Oct 16 21:47:59 UTC 2018",
 			"UpdateFrequency": "1 day",
-			"Aggregation": "none",
-			"Entries": "3059 subnets, 613341384 unique IPs",
+			"Aggregation":     "none",
+			"Entries":         "3059 subnets, 613341384 unique IPs",
 		},
 	}, nil
 }

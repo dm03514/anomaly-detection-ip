@@ -1,18 +1,16 @@
 package main
 
 import (
-	"fmt"
-	"flag"
+	"context"
 	"database/sql"
+	"flag"
+	"github.com/dm03514/anomaly-detection-ip/ipsets"
+	"github.com/lib/pq"
 	_ "github.com/lib/pq"
 	"os"
-	"github.com/dm03514/anomaly-detection-ip/ipsets"
-	"context"
-	"github.com/lib/pq"
 )
 
 func main() {
-	fmt.Println("HELLLO")
 	var dbConnectionString = flag.String("db-connection-string", "", "")
 	var netsetFile = flag.String("netset-file", "", "")
 	var netsetName = flag.String("netset-name", "", "")
@@ -51,8 +49,8 @@ func main() {
 		panic(err)
 	}
 	if _, execErr := tx.Exec(
-			"INSERT INTO provider (pname, metadata) VALUES ($1, $2) ON CONFLICT (pname) DO UPDATE SET metadata=$2",
-			*netsetName, data); execErr != nil {
+		"INSERT INTO provider (pname, metadata) VALUES ($1, $2) ON CONFLICT (pname) DO UPDATE SET metadata=$2",
+		*netsetName, data); execErr != nil {
 		_ = tx.Rollback()
 		panic(execErr)
 	}
@@ -82,6 +80,5 @@ func main() {
 	if err := tx.Commit(); err != nil {
 		panic(err)
 	}
-
 
 }
