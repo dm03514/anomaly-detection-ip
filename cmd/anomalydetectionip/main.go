@@ -8,6 +8,7 @@ import (
 
 	"flag"
 	"github.com/dm03514/anomaly-detection-ip/blacklist"
+	_ "github.com/lib/pq"
 )
 
 func stubHandler() (blacklist.Handler, error) {
@@ -35,12 +36,14 @@ func stubHandler() (blacklist.Handler, error) {
 }
 
 func postgresHandler(dbConnectionString string) (blacklist.Handler, error) {
-	_, err := blacklist.NewPostges(dbConnectionString)
+	p, err := blacklist.NewPostges(dbConnectionString)
 	if err != nil {
 		return blacklist.Handler{}, err
 	}
 
-	return blacklist.Handler{}, nil
+	return blacklist.Handler{
+		Blacklist: p,
+	}, nil
 }
 
 func main() {

@@ -2,7 +2,7 @@ package blacklist
 
 import (
 	"database/sql"
-	"fmt"
+	"time"
 )
 
 type Postgres struct {
@@ -11,10 +11,10 @@ type Postgres struct {
 
 func (p *Postgres) Test(ip string) (Result, error) {
 	q := `
-SELECT address, provider FROM ipsets
+SELECT address, provider FROM ipsets WHERE address >>= $1 
 `
-	fmt.Println(q)
-	rows, err := p.db.Query(q)
+	// fmt.Println(q)
+	rows, err := p.db.Query(q, ip)
 	if err != nil {
 		return Result{}, nil
 	}
@@ -30,14 +30,8 @@ SELECT address, provider FROM ipsets
 		}
 
 		result.Providers = append(result.Providers, provider)
-		/*
-			var (
-				id   int64
-				name string
-			)
-			fmt.Printf("id %d name is %s\n", id, name)
-		*/
 	}
+
 	if err := rows.Err(); err != nil {
 		return Result{}, err
 	}
@@ -47,6 +41,9 @@ SELECT address, provider FROM ipsets
 
 func NewPostges(dbConnectionString string) (*Postgres, error) {
 	db, err := sql.Open("postgres", dbConnectionString)
+	db.SetMaxOpenConns(10)
+	db.SetMaxIdleConns(10)
+	db.SetConnMaxLifetime(time.Millisecond * 500)
 	if err != nil {
 		return nil, err
 	}
