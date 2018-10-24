@@ -16,6 +16,11 @@ build:
 	go build -o $(BUILD)/$(ANOMALY_DETECTION_IP_BIN) ./cmd/anomalydetectionip
 	go build -o $(BUILD)/$(IPSETS_BIN) ./cmd/ipsets
 
+load-test-dataset:
+	go run cmd/ipsets/main.go \
+		--db-connection-string="postgresql://root:root@localhost/ipsets?sslmode=disable" \
+		-netset-file=$(NETSET_FILE) -netset-name $(NETSET_NAME)
+
 test-unit:
 	go test $(PKGS) -v
 
