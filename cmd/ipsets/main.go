@@ -63,7 +63,11 @@ func main() {
 	// loop through each of the rows and add them, we could make this a generator
 	// in order to bound memory in the future
 	stmt, err := tx.Prepare(pq.CopyIn("ipsets", "address", "provider"))
-	for _, cidr := range netset.CIDRS() {
+	cidrs, err := netset.CIDRS()
+	if err != nil {
+		panic(err)
+	}
+	for _, cidr := range cidrs {
 		if _, err = stmt.Exec(cidr, *netsetName); err != nil {
 			panic(err)
 		}

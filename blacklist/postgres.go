@@ -41,8 +41,8 @@ SELECT address, provider FROM ipsets WHERE address >>= $1
 
 func NewPostges(dbConnectionString string) (*Postgres, error) {
 	db, err := sql.Open("postgres", dbConnectionString)
-	db.SetMaxOpenConns(10)
-	db.SetMaxIdleConns(10)
+	db.SetMaxOpenConns(100)
+	db.SetMaxIdleConns(100)
 	db.SetConnMaxLifetime(time.Millisecond * 500)
 	if err != nil {
 		return nil, err

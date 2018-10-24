@@ -1,6 +1,7 @@
 package ipsets
 
 import (
+	"bytes"
 	"encoding/json"
 	"io"
 )
@@ -28,7 +29,11 @@ func NewNetset(f io.Reader) (Netset, error) {
 	}, nil
 }
 
-func (n Netset) CIDRS() []string {
+func (n Netset) CIDRS() ([]string, error) {
+	var buf bytes.Buffer
+	if _, err := io.Copy(&buf, n.f); err != nil {
+		return nil, err
+	}
 	return []string{
 		"0.0.0.0/8",
 		"2.56.0.0/14",
@@ -3089,7 +3094,7 @@ func (n Netset) CIDRS() []string {
 		"213.226.64.0/18",
 		"213.232.64.0/18",
 		"224.0.0.0/3",
-	}
+	}, nil
 }
 
 func (n Netset) Metadata() (Metadata, error) {

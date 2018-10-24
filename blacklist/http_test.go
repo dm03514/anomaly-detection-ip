@@ -55,16 +55,18 @@ func TestHandler_ServeHTTP_BlacklistTestError(t *testing.T) {
 }
 
 func TestHandler_ServeHTTP_BlacklistResult(t *testing.T) {
-	metadata := struct {
-		Name        string
-		LastRefresh time.Time
-	}{
-		Name:        "Hello",
-		LastRefresh: time.Now(),
+	metadata := map[string]string{
+		"Name":        "Hello",
+		"LastRefresh": time.Now().String(),
 	}
 	blacklistResult := Result{
-		Found:    true,
-		Metadata: metadata,
+		Found: true,
+		Providers: []Provider{
+			{
+				Name:     "Hello",
+				Metadata: metadata,
+			},
+		},
 	}
 
 	h := Handler{
