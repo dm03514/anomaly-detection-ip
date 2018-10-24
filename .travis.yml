@@ -1,0 +1,15 @@
+language: go
+
+go:
+  - "1.10.x"
+
+services:
+  - docker
+
+install:
+  - make build-tools
+
+script:
+  - make lint
+  - make test-unit
+  - make build
