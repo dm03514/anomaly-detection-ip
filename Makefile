@@ -22,3 +22,6 @@ start-dev:
 		--cap-add=ALL \
 		--privileged \
 		anomaly-detection-ip /bin/bash
+
+start-test-stack:
+	docker-compose down && docker-compose up
